@@ -1,0 +1,173 @@
+<div class="relative min-h-dvh overflow-hidden bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
+  <!-- fundo: grade técnica sutil (herda a cor do texto, adapta ao tema) -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,currentColor_1px,transparent_1px),linear-gradient(to_bottom,currentColor_1px,transparent_1px)] bg-size-[48px_48px] opacity-[0.05]"
+  ></div>
+
+  <div class="relative mx-auto max-w-6xl px-6 py-8 sm:px-10">
+    <!-- Header -->
+    <header class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="grid size-9 place-items-center rounded-md bg-signal-500 text-zinc-950">
+          <ng-icon name="lucideShieldCheck" size="20" />
+        </span>
+        <span class="font-display text-lg font-semibold tracking-tight">Arx</span>
+        <span class="font-mono text-[11px] uppercase tracking-[0.25em] text-zinc-500 dark:text-zinc-400">Portal</span>
+      </div>
+      <nav class="hidden items-center gap-6 font-mono text-xs uppercase tracking-widest text-zinc-500 dark:text-zinc-400 sm:flex">
+        <a class="transition-colors hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-500 focus-visible:ring-offset-2 dark:hover:text-zinc-100" href="#produtos">Produtos</a>
+        <a class="transition-colors hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-500 focus-visible:ring-offset-2 dark:hover:text-zinc-100" routerLink="/simulacao">Simulador</a>
+        <a class="transition-colors hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-500 focus-visible:ring-offset-2 dark:hover:text-zinc-100" href="#servicos">Serviços</a>
+        <a class="transition-colors hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-500 focus-visible:ring-offset-2 dark:hover:text-zinc-100" href="#pilares">Pilares</a>
+        <a class="transition-colors hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-500 focus-visible:ring-offset-2 dark:hover:text-zinc-100" href="#como-funciona">Como funciona</a>
+      </nav>
+    </header>
+
+    <!-- Hero -->
+    <section
+      class="py-20 sm:py-28"
+      appReveal
+      appRevealStagger="[data-reveal]"
+      [appRevealStaggerDelay]="110"
+    >
+      <div data-reveal class="flex items-center gap-3">
+        <app-signal-bars />
+        <p class="font-mono text-xs uppercase tracking-[0.3em] text-signal-600 dark:text-signal-400">Infra · Sec · Conf · Sup</p>
+      </div>
+      <h1 data-reveal class="mt-5 max-w-3xl font-display text-4xl font-semibold leading-[1.05] tracking-tight sm:text-6xl">
+        Ferramentas open source, <span class="text-signal-600 dark:text-signal-400">operadas para você.</span>
+      </h1>
+      <p data-reveal class="mt-6 max-w-xl text-lg text-zinc-600 dark:text-zinc-300">
+        Odoo, Documenso e n8n prontos para uso sobre uma base sólida de autenticação, segredos, TLS, banco de dados e
+        API Gateway — com infraestrutura, segurança, configuração e suporte inclusos.
+      </p>
+      <div data-reveal class="mt-8 flex flex-wrap items-center gap-4">
+        <a
+          routerLink="/simulacao"
+          class="rounded-md bg-zinc-900 px-5 py-2.5 text-sm font-medium text-zinc-50 transition-colors hover:bg-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-500 focus-visible:ring-offset-2 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
+        >
+          Simular preços
+        </a>
+        <a
+          href="#produtos"
+          class="rounded-md border border-zinc-300 px-5 py-2.5 text-sm font-medium transition-colors hover:border-zinc-400 hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-500 focus-visible:ring-offset-2 dark:border-zinc-700 dark:hover:border-zinc-600 dark:hover:bg-zinc-900"
+        >
+          Explorar produtos
+        </a>
+      </div>
+    </section>
+
+    <!-- Produtos -->
+    <section id="produtos" class="py-16 sm:py-20">
+      <h2 appReveal class="font-mono text-xs uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-400">Produtos</h2>
+      <p appReveal class="mt-3 max-w-2xl font-display text-2xl font-semibold tracking-tight">Aplicações prontas para a sua operação.</p>
+      <div appReveal appRevealStagger="article" class="mt-8 grid gap-4 sm:grid-cols-3">
+        @for (p of products; track p.name) {
+          <article class="flex flex-col rounded-lg border border-zinc-200 p-6 transition-transform duration-300 hover:-translate-y-1 dark:border-zinc-800">
+            <div class="flex items-center justify-between">
+              <ng-icon [name]="p.icon" size="24" class="text-signal-600 dark:text-signal-400" />
+              <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">{{ p.tag }}</span>
+            </div>
+            <h3 class="mt-4 font-display text-lg font-semibold">{{ p.name }}</h3>
+            <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{{ p.desc }}</p>
+            @if (p.modules?.length) {
+              <ul class="mt-4 flex flex-wrap gap-2">
+                @for (m of p.modules; track m) {
+                  <li class="rounded-full border border-zinc-200 px-2.5 py-1 font-mono text-[11px] text-zinc-600 dark:border-zinc-800 dark:text-zinc-400">{{ m }}</li>
+                }
+              </ul>
+            }
+          </article>
+        }
+        <article class="flex flex-col justify-center rounded-lg border border-dashed border-zinc-300 p-6 dark:border-zinc-700">
+          <ng-icon name="lucidePlus" size="24" class="text-zinc-400 dark:text-zinc-500" />
+          <h3 class="mt-4 font-display text-lg font-semibold text-zinc-500 dark:text-zinc-400">Em breve</h3>
+          <p class="mt-2 text-sm text-zinc-500 dark:text-zinc-400">O catálogo cresce — novas ferramentas sob demanda.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Serviços -->
+    <section id="servicos" class="py-16 sm:py-20">
+      <h2 appReveal class="font-mono text-xs uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-400">Serviços incluídos</h2>
+      <p appReveal class="mt-3 max-w-2xl font-display text-2xl font-semibold tracking-tight">Tudo o que roda por baixo, sem você precisar operar.</p>
+      <div appReveal appRevealStagger="article" class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        @for (s of services; track s.name) {
+          <article class="rounded-lg border border-zinc-200 p-6 transition-transform duration-300 hover:-translate-y-1 dark:border-zinc-800">
+            <ng-icon [name]="s.icon" size="24" class="text-signal-600 dark:text-signal-400" />
+            <h3 class="mt-4 font-display text-lg font-semibold">{{ s.name }}</h3>
+            <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{{ s.desc }}</p>
+          </article>
+        }
+        <article class="flex flex-col justify-center rounded-lg border border-dashed border-zinc-300 p-6 dark:border-zinc-700">
+          <ng-icon name="lucidePlus" size="24" class="text-zinc-400 dark:text-zinc-500" />
+          <h3 class="mt-4 font-display text-lg font-semibold text-zinc-500 dark:text-zinc-400">Sob demanda</h3>
+          <p class="mt-2 text-sm text-zinc-500 dark:text-zinc-400">Outros serviços são adicionados conforme a necessidade.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Pilares -->
+    <section id="pilares" class="py-16 sm:py-20">
+      <h2 appReveal class="font-mono text-xs uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-400">O que vendemos</h2>
+      <p appReveal class="mt-3 max-w-2xl font-display text-2xl font-semibold tracking-tight">Mais do que software: operação completa.</p>
+      <div
+        appReveal
+        appRevealStagger="article"
+        class="mt-8 grid gap-px overflow-hidden rounded-lg border border-zinc-200 bg-zinc-200 dark:border-zinc-800 dark:bg-zinc-800 sm:grid-cols-2 lg:grid-cols-4"
+      >
+        @for (p of pillars; track p.name) {
+          <article class="bg-zinc-50 p-6 transition-transform duration-300 hover:-translate-y-1 dark:bg-zinc-950">
+            <ng-icon [name]="p.icon" size="24" class="text-signal-600 dark:text-signal-400" />
+            <h3 class="mt-4 font-display text-lg font-semibold">{{ p.name }}</h3>
+            <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{{ p.desc }}</p>
+          </article>
+        }
+      </div>
+    </section>
+
+    <!-- Como funciona -->
+    <section id="como-funciona" class="py-16 sm:py-20">
+      <h2 appReveal class="font-mono text-xs uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-400">Como funciona</h2>
+      <p appReveal class="mt-3 max-w-2xl font-display text-2xl font-semibold tracking-tight">Do contrato ao acesso em quatro passos.</p>
+      <div appReveal appRevealStagger="article" class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        @for (s of steps; track s.step) {
+          <article class="rounded-lg border border-zinc-200 p-6 transition-transform duration-300 hover:-translate-y-1 dark:border-zinc-800">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-xs text-signal-600 dark:text-signal-400">{{ s.step }}</span>
+              <ng-icon [name]="s.icon" size="24" class="text-signal-600 dark:text-signal-400" />
+            </div>
+            <h3 class="mt-4 font-display text-lg font-semibold">{{ s.title }}</h3>
+            <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{{ s.desc }}</p>
+          </article>
+        }
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-16 sm:py-20">
+      <div appReveal class="rounded-lg border border-signal-200 bg-signal-50 p-8 dark:border-signal-950 dark:bg-signal-950/40 sm:p-12">
+        <p class="font-mono text-xs uppercase tracking-[0.3em] text-signal-600 dark:text-signal-400">Tudo roda sobre Kubernetes</p>
+        <h2 class="mt-3 max-w-2xl font-display text-2xl font-semibold tracking-tight sm:text-3xl">
+          Seu stack open source, operado de ponta a ponta.
+        </h2>
+        <p class="mt-4 max-w-xl text-zinc-700 dark:text-zinc-300">
+          Infraestrutura, segurança, configuração e suporte em um único contrato — você foca no negócio, a Arx cuida do resto.
+        </p>
+        <ul class="mt-6 flex flex-wrap gap-3">
+          <li class="rounded-full border border-signal-300 px-4 py-1.5 font-mono text-xs uppercase tracking-widest text-signal-700 dark:border-signal-900 dark:text-signal-300">Cloud Agnostic</li>
+          <li class="rounded-full border border-signal-300 px-4 py-1.5 font-mono text-xs uppercase tracking-widest text-signal-700 dark:border-signal-900 dark:text-signal-300">Complice by Design</li>
+          <li class="rounded-full border border-signal-300 px-4 py-1.5 font-mono text-xs uppercase tracking-widest text-signal-700 dark:border-signal-900 dark:text-signal-300">100% Open Source</li>
+          <li class="rounded-full border border-signal-300 px-4 py-1.5 font-mono text-xs uppercase tracking-widest text-signal-700 dark:border-signal-900 dark:text-signal-300">Self-hosted</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer appReveal class="mt-16 flex flex-col gap-2 border-t border-zinc-200 pt-8 font-mono text-xs text-zinc-500 dark:border-zinc-800 dark:text-zinc-400 sm:flex-row sm:items-center sm:justify-between">
+      <span>© {{ year }} Arx</span>
+      <span>Cloud Agnostic · Complice by Design</span>
+    </footer>
+  </div>
+</div>

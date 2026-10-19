@@ -1,0 +1,147 @@
+{
+  "$schema": "./config.schema.json",
+  "features": {
+    "yearlyBilling": true,
+    "setupInstallments": false
+  },
+  "pricing": {
+    "currency": "BRL",
+    "platformFee": 900,
+    "discountTiers": [
+      { "minUsers": 250, "rate": 0.2 },
+      { "minUsers": 100, "rate": 0.15 },
+      { "minUsers": 50, "rate": 0.1 },
+      { "minUsers": 25, "rate": 0.05 }
+    ],
+    "products": [
+      {
+        "id": "odoo",
+        "name": "Odoo",
+        "tag": "ERP",
+        "desc": "Vendas, estoque, CRM e financeiro integrados.",
+        "icon": "lucideBoxes",
+        "base": 900,
+        "perUser": 150,
+        "setup": 6000,
+        "beta": false
+      },
+      {
+        "id": "documenso",
+        "name": "Documenso",
+        "tag": "Assinatura digital",
+        "desc": "Contratos assinados em minutos, com validade jurídica.",
+        "icon": "lucideFileCheck",
+        "base": 200,
+        "perUser": 30,
+        "setup": 1500,
+        "beta": false
+      },
+      {
+        "id": "stalwart",
+        "name": "Stalwart Mail",
+        "tag": "E-mail",
+        "desc": "E-mail profissional, seguro e sob o seu controle.",
+        "icon": "lucideHardDrive",
+        "base": 120,
+        "perUser": 15,
+        "setup": 800,
+        "beta": false
+      },
+      {
+        "id": "n8n",
+        "name": "n8n",
+        "tag": "Automação",
+        "desc": "Automatize o repetitivo e conecte a operação.",
+        "icon": "lucideWorkflow",
+        "base": 300,
+        "perUser": 60,
+        "setup": 2500,
+        "beta": false
+      },
+      {
+        "id": "nextcloud",
+        "name": "Nextcloud",
+        "tag": "Colaboração",
+        "desc": "Arquivos, agenda e contatos sincronizados.",
+        "icon": "lucideCloud",
+        "base": 200,
+        "perUser": 25,
+        "setup": 1500,
+        "beta": false
+      },
+      {
+        "id": "paperless",
+        "name": "Paperless-ngx",
+        "tag": "Documentos",
+        "desc": "Digitalize e encontre documentos em segundos.",
+        "icon": "lucideScanText",
+        "base": 120,
+        "perUser": 15,
+        "setup": 800,
+        "beta": false
+      },
+      {
+        "id": "zammad",
+        "name": "Zammad",
+        "tag": "Suporte",
+        "desc": "Central de suporte organizada e multicanal.",
+        "icon": "lucideHeadset",
+        "base": 250,
+        "perUser": 40,
+        "setup": 2000,
+        "beta": false
+      },
+      {
+        "id": "metabase",
+        "name": "Metabase",
+        "tag": "BI",
+        "desc": "Decisões baseadas em dados, com dashboards.",
+        "icon": "lucideBarChart3",
+        "base": 200,
+        "perUser": 30,
+        "setup": 1500,
+        "beta": false
+      },
+      {
+        "id": "outline",
+        "name": "Outline",
+        "tag": "Wiki",
+        "desc": "Documente processos e mantenha o time alinhado.",
+        "icon": "lucideBookOpen",
+        "base": 120,
+        "perUser": 12,
+        "setup": 800,
+        "beta": false
+      },
+      {
+        "id": "calcom",
+        "name": "Cal.com",
+        "tag": "Agendamento",
+        "desc": "Reuniões agendadas sem troca de e-mails.",
+        "icon": "lucideCalendarClock",
+        "base": 120,
+        "perUser": 20,
+        "setup": 800,
+        "beta": false
+      },
+      {
+        "id": "penpot",
+        "name": "Penpot",
+        "tag": "Design",
+        "desc": "Crie e prototipe interfaces em equipe.",
+        "icon": "lucideMousePointerClick",
+        "base": 250,
+        "perUser": 30,
+        "setup": 1500,
+        "beta": false
+      }
+    ]
+  },
+  "sales": {
+    "enabled": true,
+    "agents": [
+      { "code": "AX92K", "name": "Maria Souza", "commission": 0.1 },
+      { "code": "BR71P", "name": "João Lima", "commission": 0.15 }
+    ]
+  }
+}

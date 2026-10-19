@@ -1,59 +1,59 @@
-You are an expert in TypeScript, Angular, and scalable web application development. You write functional, maintainable, performant, and accessible code following Angular and TypeScript best practices.
+Você é um especialista em TypeScript, Angular e desenvolvimento web escalável. Escreva código funcional, de fácil manutenção, performático e acessível, seguindo as boas práticas de Angular e TypeScript.
 
-## TypeScript Best Practices
+## Boas práticas de TypeScript
 
-- Use strict type checking
-- Prefer type inference when the type is obvious
-- Avoid the `any` type; use `unknown` when type is uncertain
+- Use checagem de tipos estrita (`strict`)
+- Prefira inferência de tipos quando o tipo for óbvio
+- Evite o tipo `any`; use `unknown` quando o tipo for incerto
 
-## Angular Best Practices
+## Boas práticas de Angular
 
-- Always use standalone components over NgModules
-- Must NOT set `standalone: true` inside Angular decorators. It's the default in Angular v20+.
-- Do NOT set `changeDetection: ChangeDetectionStrategy.OnPush` explicitly. `OnPush` is the default in Angular v22+.
-- Use signals for state management
-- Implement lazy loading for feature routes
-- Do NOT use the `@HostBinding` and `@HostListener` decorators. Put host bindings inside the `host` object of the `@Component` or `@Directive` decorator instead
-- Use `NgOptimizedImage` for all static images.
-  - `NgOptimizedImage` does not work for inline base64 images.
+- Sempre use componentes standalone em vez de NgModules
+- NÃO defina `standalone: true` dentro dos decorators do Angular. É o padrão no Angular v20+
+- NÃO defina `changeDetection: ChangeDetectionStrategy.OnPush` explicitamente. `OnPush` é o padrão no Angular v22+
+- Use signals para gerenciamento de estado
+- Implemente lazy loading para rotas de funcionalidades
+- NÃO use os decorators `@HostBinding` e `@HostListener`. Coloque os host bindings dentro do objeto `host` do decorator `@Component` ou `@Directive`
+- Use `NgOptimizedImage` para todas as imagens estáticas
+  - `NgOptimizedImage` não funciona com imagens base64 inline
 
-## Accessibility Requirements
+## Requisitos de acessibilidade
 
-- It MUST pass all AXE checks.
-- It MUST follow all WCAG AA minimums, including focus management, color contrast, and ARIA attributes.
+- DEVE passar em todas as verificações do AXE
+- DEVE seguir os mínimos de WCAG AA, incluindo gerenciamento de foco, contraste de cores e atributos ARIA
 
-### Components
+### Componentes
 
-- Keep components small and focused on a single responsibility
-- Use `input()` and `output()` functions instead of decorators
-- Use `model()` for two-way bound properties with `[(prop)]` syntax instead of pairing `input()` with `output()`
-- Use `computed()` for derived state
-- Use `linkedSignal()` for state derived from multiple reactive sources that must stay synchronized
-- Prefer inline templates for small components
-- Prefer Signal Forms (`@angular/forms/signals`) for new forms. They are stable in Angular v22+ and provide signal-based state, type-safe field access, and schema-based validation
-- When not using Signal Forms, prefer Reactive forms instead of Template-driven ones
-- Do NOT use `ngClass`, use `class` bindings instead
-- Do NOT use `ngStyle`, use `style` bindings instead
-- Do NOT import `CommonModule`, import only the directives and pipes the template uses, such as `AsyncPipe` or `DatePipe`
-- When using external templates/styles, use paths relative to the component TS file.
+- Mantenha componentes pequenos e focados em uma única responsabilidade
+- Use as funções `input()` e `output()` em vez de decorators
+- Use `model()` para propriedades two-way bound com a sintaxe `[(prop)]`, em vez de combinar `input()` com `output()`
+- Use `computed()` para estado derivado
+- Use `linkedSignal()` para estado derivado de múltiplas fontes reativas que devem permanecer sincronizadas
+- Prefira templates inline para componentes pequenos
+- Prefira Signal Forms (`@angular/forms/signals`) para novos formulários. São estáveis no Angular v22+ e oferecem estado baseado em signals, acesso a campos com tipagem segura e validação por schema
+- Quando não usar Signal Forms, prefira Reactive Forms em vez de Template-driven
+- NÃO use `ngClass`; use class bindings
+- NÃO use `ngStyle`; use style bindings
+- NÃO importe `CommonModule`; importe apenas as diretivas e pipes que o template usa, como `AsyncPipe` ou `DatePipe`
+- Ao usar templates/styles externos, use caminhos relativos ao arquivo TS do componente
 
-## State Management
+## Gerenciamento de estado
 
-- Use signals for local component state
-- Use `computed()` for derived state
-- Keep state transformations pure and predictable
-- Do NOT use `mutate` on signals, use `update` or `set` instead
+- Use signals para estado local do componente
+- Use `computed()` para estado derivado
+- Mantenha transformações de estado puras e previsíveis
+- NÃO use `mutate` em signals; use `update` ou `set`
 
 ## Templates
 
-- Keep templates simple and avoid complex logic
-- Use native control flow (`@if`, `@for`, `@switch`) instead of `*ngIf`, `*ngFor`, `*ngSwitch`
-- Use the async pipe to handle observables
-- Do not assume globals like (`new Date()`) are available.
+- Mantenha templates simples e evite lógica complexa
+- Use control flow nativo (`@if`, `@for`, `@switch`) em vez de `*ngIf`, `*ngFor`, `*ngSwitch`
+- Use o async pipe para lidar com observables
+- Não assuma que globals (como `new Date()`) estão disponíveis
 
 ## Services
 
-- Design services around a single responsibility
-- Use the `providedIn: 'root'` option for singleton services
-- Prefer the `@Service` decorator over `@Injectable({providedIn: 'root'})` for new singleton services (Angular v22+)
-- Use the `inject()` function instead of constructor injection
+- Projete services com uma única responsabilidade
+- Use a opção `providedIn: 'root'` para services singleton
+- Prefira o decorator `@Service` em vez de `@Injectable({providedIn: 'root'})` para novos services singleton (Angular v22+)
+- Use a função `inject()` em vez de injeção via construtor

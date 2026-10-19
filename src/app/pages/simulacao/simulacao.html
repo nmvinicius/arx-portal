@@ -1,0 +1,330 @@
+<div class="relative min-h-dvh bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
+  <!-- fundo: grade técnica sutil (herda a cor do texto, adapta ao tema) -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 overflow-hidden">
+    <div
+      class="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,currentColor_1px,transparent_1px),linear-gradient(to_bottom,currentColor_1px,transparent_1px)] bg-size-[48px_48px] opacity-[0.05]"
+    ></div>
+  </div>
+
+  <div class="relative mx-auto max-w-6xl px-6 py-8 sm:px-10">
+    <!-- Header -->
+    <header class="flex items-center justify-between">
+      <a
+        routerLink="/"
+        class="flex items-center gap-3 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-500 focus-visible:ring-offset-2"
+      >
+        <span class="grid size-9 place-items-center rounded-md bg-signal-500 text-zinc-950">
+          <ng-icon name="lucideShieldCheck" size="20" />
+        </span>
+        <span class="font-display text-lg font-semibold tracking-tight">Arx</span>
+        <span class="font-mono text-[11px] uppercase tracking-[0.25em] text-zinc-500 dark:text-zinc-400">Portal</span>
+      </a>
+      <nav class="hidden items-center gap-6 font-mono text-xs uppercase tracking-widest text-zinc-500 dark:text-zinc-400 sm:flex">
+        <a
+          routerLink="/"
+          class="transition-colors hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-500 focus-visible:ring-offset-2 dark:hover:text-zinc-100"
+        >
+          Início
+        </a>
+        <a
+          href="#produtos"
+          class="transition-colors hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-500 focus-visible:ring-offset-2 dark:hover:text-zinc-100"
+        >
+          Produtos
+        </a>
+      </nav>
+    </header>
+
+    @if (configStatus() === 'tampered') {
+      <div class="mt-8 rounded-lg border border-rose-300 bg-rose-50 px-4 py-3 text-sm text-rose-700 dark:border-rose-800 dark:bg-rose-950/40 dark:text-rose-300">
+        Configuração alterada no navegador. Recarregue a página para restaurar os valores originais.
+      </div>
+    }
+
+    @if (agent(); as agent) {
+      <section appReveal class="mt-8">
+        <div class="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-lg border border-signal-500/40 bg-signal-500/10 px-4 py-3">
+          <ng-icon name="lucideBadgeCheck" size="18" class="text-signal-600 dark:text-signal-400" />
+          <p class="text-sm text-zinc-700 dark:text-zinc-200">
+            Parceiro de vendas: <span class="font-medium">{{ agent.name }}</span>
+            <span class="ml-1 font-mono text-xs text-zinc-500 dark:text-zinc-400">código {{ agent.code }}</span>
+          </p>
+        </div>
+      </section>
+    }
+
+    <!-- Hero -->
+    <section class="py-16 sm:py-20">
+      <div appReveal class="flex items-center gap-3">
+        <ng-icon name="lucideCalculator" size="16" class="text-signal-600 dark:text-signal-400" />
+        <p class="font-mono text-xs uppercase tracking-[0.3em] text-signal-600 dark:text-signal-400">Simulador de valores</p>
+      </div>
+      <h1 appReveal class="mt-5 max-w-3xl font-display text-4xl font-semibold leading-[1.05] tracking-tight sm:text-6xl">
+        Monte o preço da <span class="text-signal-600 dark:text-signal-400">sua operação.</span>
+      </h1>
+      <p appReveal class="mt-6 max-w-xl text-lg text-zinc-600 dark:text-zinc-300">
+        Escolha as ferramentas e informe quantas pessoas vão usar cada uma. O valor estimado é calculado na hora — com
+        desconto por volume e opção de cobrança anual.
+      </p>
+    </section>
+
+    <!-- Simulador -->
+    <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
+      <!-- Produtos -->
+      <section id="produtos" aria-label="Seleção de produtos">
+        <h2 appReveal class="font-mono text-xs uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-400">Produtos</h2>
+        <p appReveal class="mt-3 max-w-2xl font-display text-2xl font-semibold tracking-tight">
+          Selecione e defina os usuários.
+        </p>
+
+        <div appReveal appRevealStagger="article" class="mt-8 grid gap-4 sm:grid-cols-2">
+          @for (p of products(); track p.id) {
+            <article [class]="cardClasses(p.id)">
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <ng-icon [name]="p.icon" size="22" class="text-signal-600 dark:text-signal-400" />
+                  <div>
+                    <h3 class="font-display text-base font-semibold leading-tight">{{ p.name }}</h3>
+                    <p class="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">
+                      {{ p.tag }}
+                      @if (p.beta) {
+                        <span class="rounded-full bg-signal-500/15 px-1.5 py-0.5 text-[9px] leading-none text-signal-600 dark:bg-signal-400/15 dark:text-signal-400">beta</span>
+                      }
+                    </p>
+                  </div>
+                </div>
+                @if (isSelected(p.id)) {
+                  <button
+                    type="button"
+                    (click)="remove(p.id)"
+                    class="grid size-8 shrink-0 place-items-center rounded-md text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-500 focus-visible:ring-offset-2 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+                  >
+                    <ng-icon name="lucideX" size="16" />
+                    <span class="sr-only">Remover {{ p.name }}</span>
+                  </button>
+                }
+              </div>
+
+              <p class="mt-3 text-sm text-zinc-600 dark:text-zinc-400">{{ p.desc }}</p>
+
+              <div class="mt-4 space-y-1 font-mono text-xs">
+                <p class="flex items-baseline gap-1.5">
+                  <span class="text-signal-600 dark:text-signal-400">{{ format(baseFor(p)) }}</span>
+                  <span class="text-zinc-500 dark:text-zinc-400">/mês base</span>
+                </p>
+                <p class="flex items-baseline gap-1.5">
+                  <span class="text-signal-600 dark:text-signal-400">{{ format(perUserFor(p)) }}</span>
+                  <span class="text-zinc-500 dark:text-zinc-400">/usuário/mês</span>
+                </p>
+                <p class="flex items-baseline gap-1.5">
+                  <span class="text-zinc-500 dark:text-zinc-400">{{ format(setupFor(p)) }}</span>
+                  <span class="text-zinc-500 dark:text-zinc-400">setup (uma vez)</span>
+                </p>
+              </div>
+
+              <div class="mt-auto pt-4">
+                @if (isSelected(p.id)) {
+                  <div class="flex items-center justify-between gap-2 rounded-md border border-zinc-300 p-1 dark:border-zinc-700">
+                    <button
+                      type="button"
+                      (click)="adjust(p.id, -1)"
+                      class="grid size-9 shrink-0 place-items-center rounded text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-500 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+                    >
+                      <ng-icon name="lucideMinus" size="16" />
+                      <span class="sr-only">Diminuir usuários de {{ p.name }}</span>
+                    </button>
+
+                    <div class="flex flex-col items-center leading-none">
+                      <input
+                        type="number"
+                        inputmode="numeric"
+                        min="1"
+                        max="1000"
+                        step="1"
+                        [value]="usersFor(p.id)"
+                        (input)="onUsersInput(p.id, $event)"
+                        (blur)="onUsersBlur(p.id, $event)"
+                        [attr.aria-label]="'Usuários de ' + p.name"
+                        class="w-16 bg-transparent text-center font-display text-lg font-semibold outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                      />
+                      <span class="font-mono text-[10px] uppercase tracking-widest text-zinc-500 dark:text-zinc-400">usuários</span>
+                    </div>
+
+                    <button
+                      type="button"
+                      (click)="adjust(p.id, 1)"
+                      class="grid size-9 shrink-0 place-items-center rounded text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-500 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+                    >
+                      <ng-icon name="lucidePlus" size="16" />
+                      <span class="sr-only">Aumentar usuários de {{ p.name }}</span>
+                    </button>
+                  </div>
+                } @else {
+                  <button
+                    type="button"
+                    (click)="add(p.id)"
+                    class="flex w-full items-center justify-center gap-2 rounded-md border border-zinc-300 px-4 py-2.5 text-sm font-medium transition-colors hover:border-zinc-400 hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-500 focus-visible:ring-offset-2 dark:border-zinc-700 dark:hover:border-zinc-600 dark:hover:bg-zinc-900"
+                  >
+                    <ng-icon name="lucidePlus" size="16" />
+                    Adicionar
+                  </button>
+                }
+              </div>
+            </article>
+          }
+        </div>
+      </section>
+
+      <!-- Resumo -->
+      <aside
+        appReveal
+        class="rounded-lg border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900/60 lg:sticky lg:top-8"
+      >
+        <div class="flex items-center justify-between">
+          <h2 class="font-mono text-xs uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-400">Resumo</h2>
+          <ng-icon name="lucideReceipt" size="18" class="text-zinc-400 dark:text-zinc-500" />
+        </div>
+
+        <!-- Ciclo de cobrança -->
+        @if (features().yearlyBilling) {
+          <div
+            role="group"
+            aria-label="Ciclo de cobrança"
+            class="mt-5 grid grid-cols-2 gap-1 rounded-md border border-zinc-200 p-1 dark:border-zinc-800"
+          >
+            <button type="button" [class]="billingClasses('monthly')" (click)="setBilling('monthly')">Mensal</button>
+            <button type="button" [class]="billingClasses('yearly')" (click)="setBilling('yearly')">
+              Anual
+              <span class="ml-1 font-mono text-[10px] uppercase tracking-widest text-signal-600 dark:text-signal-400">-2m</span>
+            </button>
+          </div>
+        }
+
+        @if (selectedItems().length) {
+          <ul class="mt-5 space-y-3">
+            @for (item of selectedItems(); track item.product.id) {
+              <li class="flex items-center justify-between gap-3 text-sm">
+                <div class="flex min-w-0 items-center gap-2">
+                  <ng-icon [name]="item.product.icon" size="16" class="shrink-0 text-zinc-400 dark:text-zinc-500" />
+                  <span class="truncate">{{ item.product.name }}</span>
+                  <span class="shrink-0 font-mono text-xs text-zinc-500 dark:text-zinc-400">× {{ item.users }}</span>
+                </div>
+                <span class="shrink-0 font-mono text-xs">{{ format(item.total) }}</span>
+              </li>
+            }
+          </ul>
+
+          <div class="mt-4 flex items-center justify-between rounded-md bg-zinc-50 px-3 py-2 dark:bg-zinc-900/40">
+            <span class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
+              <ng-icon name="lucideUsers" size="14" />
+              Usuários
+            </span>
+            <span class="font-mono text-sm">{{ totalUsers() }}</span>
+          </div>
+
+          <hr class="my-4 border-zinc-200 dark:border-zinc-800" />
+
+          <dl class="space-y-2 text-sm">
+            <div class="flex items-center justify-between">
+              <dt class="text-zinc-500 dark:text-zinc-400">Produtos</dt>
+              <dd class="font-mono">{{ format(subtotal()) }}</dd>
+            </div>
+            <div class="flex items-center justify-between">
+              <dt class="text-zinc-500 dark:text-zinc-400">Plataforma (Infra · Sec · Conf · Sup)</dt>
+              <dd class="font-mono">{{ format(platformMonthly()) }}</dd>
+            </div>
+            @if (discountRate() > 0) {
+              <div class="flex items-center justify-between text-emerald-600 dark:text-emerald-400">
+                <dt class="flex items-center gap-1.5">
+                  <ng-icon name="lucideBadgePercent" size="14" />
+                  Desconto por volume ({{ discountPercent() }}%)
+                </dt>
+                <dd class="font-mono">−{{ format(discount()) }}</dd>
+              </div>
+            }
+          </dl>
+
+          <div class="mt-4 border-t border-zinc-200 pt-4 dark:border-zinc-800">
+            <div class="flex items-end justify-between gap-3">
+              <div>
+                <p class="font-mono text-xs uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">Assinatura</p>
+                <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">{{ billing() === 'yearly' ? 'no primeiro ano' : 'por mês' }}</p>
+              </div>
+              <p class="font-display text-3xl font-semibold tracking-tight">{{ format(grandTotal()) }}</p>
+            </div>
+
+            @if (billing() === 'yearly') {
+              <p class="mt-2 flex items-center gap-1.5 font-mono text-xs text-emerald-600 dark:text-emerald-400">
+                <ng-icon name="lucideSparkles" size="14" />
+                2 meses grátis · economize {{ format(monthlyTotal() * 2) }}/ano
+              </p>
+            }
+          </div>
+
+          @if (features().setupInstallments && setupTotal() > 0) {
+            <div class="mt-4 rounded-md border border-zinc-200 p-4 dark:border-zinc-800">
+              <div class="flex items-center justify-between gap-3">
+                <p class="font-mono text-xs uppercase tracking-[0.2em] text-zinc-500 dark:text-zinc-400">Setup (implantação)</p>
+                <span class="font-mono text-sm">{{ format(setupTotal()) }}</span>
+              </div>
+              <app-setup-planner class="mt-3 block" [(months)]="setupMonths" [(tilt)]="setupTilt" [setup]="setupTotal()" />
+            </div>
+          }
+
+          @if (selectedItems().length) {
+            <button
+              type="button"
+              (click)="signProposal()"
+              class="mt-5 flex w-full items-center justify-center gap-2 rounded-md bg-signal-500 px-5 py-2.5 text-sm font-medium text-zinc-950 transition-colors hover:bg-signal-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-500 focus-visible:ring-offset-2 dark:hover:bg-signal-400"
+            >
+              Assinar proposta
+              <ng-icon name="lucideArrowRight" size="16" />
+            </button>
+          } @else {
+            <button
+              type="button"
+              disabled
+              class="mt-5 flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-md border border-zinc-300 px-5 py-2.5 text-sm font-medium text-zinc-400 dark:border-zinc-700 dark:text-zinc-500"
+            >
+              Assinar proposta
+              <ng-icon name="lucideArrowRight" size="16" />
+            </button>
+          }
+
+          @if (integrityError()) {
+            <p class="mt-3 rounded-md border border-rose-300 bg-rose-50 px-3 py-2 text-sm text-rose-700 dark:border-rose-800 dark:bg-rose-950/40 dark:text-rose-300">
+              A configuração foi alterada no navegador. Recarregue a página para assinar a proposta.
+            </p>
+          }
+        } @else {
+          <div class="mt-6 rounded-md border border-dashed border-zinc-300 p-8 text-center dark:border-zinc-700">
+            <ng-icon name="lucideCalculator" size="24" class="mx-auto text-zinc-400 dark:text-zinc-500" />
+            <p class="mt-3 text-sm text-zinc-500 dark:text-zinc-400">
+              Selecione produtos para ver o valor estimado.
+            </p>
+          </div>
+        }
+
+        <!-- O que a plataforma cobre -->
+        <div class="mt-5 rounded-md bg-zinc-50 p-4 dark:bg-zinc-900/40">
+          <p class="font-mono text-[11px] uppercase tracking-widest text-zinc-500 dark:text-zinc-400">O que a plataforma cobre</p>
+          <ul class="mt-2 flex flex-wrap gap-2">
+            <li class="rounded-full border border-zinc-200 px-2.5 py-1 font-mono text-[11px] text-zinc-600 dark:border-zinc-800 dark:text-zinc-400">Infra</li>
+            <li class="rounded-full border border-zinc-200 px-2.5 py-1 font-mono text-[11px] text-zinc-600 dark:border-zinc-800 dark:text-zinc-400">Sec</li>
+            <li class="rounded-full border border-zinc-200 px-2.5 py-1 font-mono text-[11px] text-zinc-600 dark:border-zinc-800 dark:text-zinc-400">Conf</li>
+            <li class="rounded-full border border-zinc-200 px-2.5 py-1 font-mono text-[11px] text-zinc-600 dark:border-zinc-800 dark:text-zinc-400">Sup</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Footer -->
+    <footer
+      appReveal
+      class="mt-16 flex flex-col gap-2 border-t border-zinc-200 pt-8 font-mono text-xs text-zinc-500 dark:border-zinc-800 dark:text-zinc-400 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <span>© {{ year }} Arx</span>
+      <span>Valores de referência · a proposta final considera a sua configuração</span>
+    </footer>
+  </div>
+</div>

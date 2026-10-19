@@ -1,0 +1,114 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Configuração estática do Portal Arx",
+  "description": "Valida o config.json editado manualmente. Referenciado pelo campo $schema do próprio arquivo.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["features", "pricing", "sales"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Referência ao schema de validação deste arquivo."
+    },
+    "features": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["yearlyBilling", "setupInstallments"],
+      "properties": {
+        "yearlyBilling": {
+          "type": "boolean",
+          "description": "Habilita a opção de cobrança anual no simulador."
+        },
+        "setupInstallments": {
+          "type": "boolean",
+          "description": "Habilita a seção de parcelamento do setup (dividir e como pagar)."
+        }
+      }
+    },
+    "pricing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["currency", "platformFee", "discountTiers", "products"],
+      "properties": {
+        "currency": {
+          "type": "string",
+          "description": "Código ISO 4217 da moeda usada na formatação."
+        },
+        "platformFee": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Taxa mensal da plataforma (Infra · Sec · Conf · Sup)."
+        },
+        "discountTiers": {
+          "type": "array",
+          "description": "Faixas de desconto por volume, aplicadas pela maior minUsers que for atingida.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["minUsers", "rate"],
+            "properties": {
+              "minUsers": { "type": "integer", "minimum": 0 },
+              "rate": { "type": "number", "minimum": 0, "maximum": 1 }
+            }
+          }
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "name", "tag", "desc", "icon", "base", "perUser", "setup", "beta"],
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "tag": { "type": "string" },
+              "desc": { "type": "string" },
+              "icon": { "type": "string" },
+              "base": { "type": "number", "minimum": 0 },
+              "perUser": { "type": "number", "minimum": 0 },
+              "setup": { "type": "number", "minimum": 0 },
+              "beta": {
+                "type": "boolean",
+                "description": "Marca o produto como beta no simulador."
+              }
+            }
+          }
+        }
+      }
+    },
+    "sales": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "agents"],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Habilita a tela de vendas por código de parceiro."
+        },
+        "agents": {
+          "type": "array",
+          "description": "Parceiros de vendas e seus códigos de link.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["code", "name", "commission"],
+            "properties": {
+              "code": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Código curto usado no link (/v/CODE)."
+              },
+              "name": { "type": "string" },
+              "commission": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "Participação somada ao preço (0.1 = 10%)."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

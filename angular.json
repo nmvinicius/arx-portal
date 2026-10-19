@@ -2,7 +2,8 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
-    "packageManager": "pnpm"
+    "packageManager": "pnpm",
+    "analytics": "ba60bfe0-ffcf-4e4a-9829-5a589e707324"
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -25,6 +26,9 @@
               }
             ],
             "styles": [
+              "node_modules/@fontsource-variable/space-grotesk/index.css",
+              "node_modules/@fontsource/ibm-plex-mono/latin-400.css",
+              "node_modules/@fontsource/ibm-plex-mono/latin-500.css",
               "src/styles.css"
             ]
           },

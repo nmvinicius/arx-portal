@@ -1,3 +1,41 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import 'tailwindcss';
+
+/* ============================================================
+   Arx — Design Tokens (Steel & Signal)
+   Dark/Light automático via prefers-color-scheme (variant `dark:`)
+   ============================================================ */
+
+@theme {
+  /* Tipografia */
+  --font-sans: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Marca — Signal Orange */
+  --color-signal-50: #fff5ed;
+  --color-signal-100: #ffe8d4;
+  --color-signal-200: #ffcda8;
+  --color-signal-300: #ffab70;
+  --color-signal-400: #ff7d37;
+  --color-signal-500: #ff520e;
+  --color-signal-600: #f03904;
+  --color-signal-700: #c72a06;
+  --color-signal-800: #9e230d;
+  --color-signal-900: #7f200e;
+  --color-signal-950: #450d05;
+}
+
+@layer base {
+  html {
+    color-scheme: light dark;
+  }
+
+  body {
+    @apply bg-zinc-50 text-zinc-900 antialiased dark:bg-zinc-950 dark:text-zinc-100;
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    @apply bg-signal-500/25 text-signal-950 dark:text-signal-100;
+  }
+}
