@@ -68,6 +68,30 @@
       </p>
     </section>
 
+    <!-- Perfis de pré-seleção -->
+    @if (presets().length) {
+      <section appReveal class="-mt-6 pb-12">
+        <h2 class="font-mono text-xs uppercase tracking-[0.3em] text-zinc-500 dark:text-zinc-400">Comece por um perfil</h2>
+        <p class="mt-2 max-w-2xl text-sm text-zinc-600 dark:text-zinc-300">
+          Pré-seleções rápidas por segmento — você ajusta os usuários depois.
+        </p>
+        <div class="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          @for (preset of presets(); track preset.id) {
+            <button
+              type="button"
+              (click)="applyPreset(preset)"
+              [class]="presetClasses(preset.id)"
+              [attr.aria-pressed]="activePresetId() === preset.id"
+            >
+              <ng-icon [name]="preset.icon" size="18" class="text-signal-600 dark:text-signal-400" />
+              <span class="font-display text-sm font-semibold leading-tight">{{ preset.name }}</span>
+              <span class="text-xs text-zinc-500 dark:text-zinc-400">{{ preset.desc }}</span>
+            </button>
+          }
+        </div>
+      </section>
+    }
+
     <!-- Simulador -->
     <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
       <!-- Produtos -->

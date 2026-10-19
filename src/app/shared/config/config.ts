@@ -55,13 +55,27 @@ export interface SalesAgent {
 export interface SalesConfig {
   /** Habilita a tela de vendas por código de parceiro. */
   enabled: boolean;
+  /** E-mail de destino das propostas (usado no mailto). */
+  email: string;
+  /** Validade da estimativa, em dias. */
+  validityDays: number;
   agents: SalesAgent[];
+}
+
+export interface SimulatorPreset {
+  id: string;
+  name: string;
+  desc: string;
+  icon: string;
+  /** Pré-seleção: id do produto -> número de usuários. */
+  selection: Record<string, number>;
 }
 
 export interface AppConfig {
   features: FeatureFlags;
   pricing: PricingConfig;
   sales: SalesConfig;
+  presets: SimulatorPreset[];
 }
 
 export const DEFAULT_CONFIG: AppConfig = {
@@ -94,6 +108,38 @@ export const DEFAULT_CONFIG: AppConfig = {
   },
   sales: {
     enabled: false,
+    email: '',
+    validityDays: 15,
     agents: [],
   },
+  presets: [
+    {
+      id: 'advocacia',
+      name: 'Escritório de Advocacia',
+      desc: 'Contratos, digitalização e arquivos do escritório.',
+      icon: 'lucideScale',
+      selection: { documenso: 8, paperless: 8, nextcloud: 10, outline: 6 },
+    },
+    {
+      id: 'contabilidade',
+      name: 'Escritório de Contabilidade',
+      desc: 'Documentos fiscais, arquivos e relatórios.',
+      icon: 'lucideCalculator',
+      selection: { paperless: 10, nextcloud: 12, documenso: 6, metabase: 6 },
+    },
+    {
+      id: 'agencia',
+      name: 'Agência de Design',
+      desc: 'Design, agenda, arquivos e automação.',
+      icon: 'lucideMousePointerClick',
+      selection: { penpot: 6, nextcloud: 10, calcom: 6, n8n: 4 },
+    },
+    {
+      id: 'varejo',
+      name: 'Comércio e Serviços',
+      desc: 'ERP, suporte e indicadores para o dia a dia.',
+      icon: 'lucideStore',
+      selection: { odoo: 15, n8n: 4, zammad: 5, metabase: 5 },
+    },
+  ],
 };

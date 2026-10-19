@@ -25,6 +25,13 @@ export class Proposta {
   private readonly route = inject(ActivatedRoute);
   private readonly config = inject(ConfigService);
 
+  /** E-mail de destino das propostas (vindo do config). */
+  protected readonly email = computed(() => this.config.sales().email);
+  protected readonly disclaimer = computed(
+    () =>
+      `Estimativa não vinculante · impostos não incluídos · válida por ${this.config.sales().validityDays} dias.`,
+  );
+
   protected readonly proposal = signal<Proposal | null>(null);
   protected readonly link = signal('');
   protected readonly copied = signal(false);
@@ -65,8 +72,9 @@ export class Proposta {
 
   protected mailto(): string {
     const proposal = this.proposal();
+    const prefix = `mailto:${this.email()}`;
     if (!proposal) {
-      return 'mailto:?subject=Proposta%20Arx';
+      return `${prefix}?subject=${encodeURIComponent('Proposta Arx')}`;
     }
 
     const lines = proposal.lines.map(
@@ -83,10 +91,12 @@ export class Proposta {
       `Total estimado: ${this.format(proposal.grandTotal)} ${proposal.billing === 'yearly' ? 'por ano' : 'por mês'}.`,
       '',
       `Link assinado: ${this.link()}`,
+      '',
+      this.disclaimer(),
     ]
       .filter((line) => line !== '')
       .join('\n');
 
-    return `mailto:?subject=${encodeURIComponent('Proposta Arx')}&body=${encodeURIComponent(body)}`;
+    return `${prefix}?subject=${encodeURIComponent('Proposta Arx')}&body=${encodeURIComponent(body)}`;
   }
 }

@@ -18,9 +18,11 @@ import {
   lucideMousePointerClick,
   lucidePlus,
   lucideReceipt,
+  lucideScale,
   lucideScanText,
   lucideShieldCheck,
   lucideSparkles,
+  lucideStore,
   lucideUsers,
   lucideWorkflow,
   lucideX,
@@ -56,9 +58,11 @@ describe('Simulacao', () => {
           lucideMousePointerClick,
           lucidePlus,
           lucideReceipt,
+          lucideScale,
           lucideScanText,
           lucideShieldCheck,
           lucideSparkles,
+          lucideStore,
           lucideUsers,
           lucideWorkflow,
           lucideX,
@@ -93,7 +97,7 @@ describe('Simulacao', () => {
     const config = TestBed.inject(ConfigService);
     config.config.set({
       ...DEFAULT_CONFIG,
-      sales: { enabled: true, agents: [{ code: 'AX92K', name: 'Maria', commission: 0.1 }] },
+      sales: { enabled: true, email: '', validityDays: 15, agents: [{ code: 'AX92K', name: 'Maria', commission: 0.1 }] },
     });
 
     const fixture = TestBed.createComponent(Simulacao);
@@ -106,5 +110,17 @@ describe('Simulacao', () => {
     expect(component['baseFor'](component['products']()[0])).toBe(990);
     expect(component['perUserFor'](component['products']()[0])).toBe(165);
     expect(component['grandTotal']()).toBe(2805);
+  });
+
+  it('aplica uma pré-seleção de perfil e marca como ativa', () => {
+    const fixture = TestBed.createComponent(Simulacao);
+    const component = fixture.componentInstance;
+
+    const preset = component['presets']()[0];
+    component['applyPreset'](preset);
+    fixture.detectChanges();
+
+    expect(component['activePresetId']()).toBe(preset.id);
+    expect(component['usersFor']('documenso')).toBe(preset.selection['documenso']);
   });
 });

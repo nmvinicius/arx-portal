@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgIcon } from '@ng-icons/core';
 import { RevealDirective } from '../../shared/animations/reveal.directive';
 import { ConfigService } from '../../shared/config/config.service';
-import { ProductPricing } from '../../shared/config/config';
+import { ProductPricing, SimulatorPreset } from '../../shared/config/config';
 import { encodeProposal, Proposal } from '../../shared/proposal/proposal';
 import { computeSetupSchedule } from './setup-math';
 import { SetupPlanner } from './setup-planner';
@@ -35,6 +35,7 @@ export class Simulacao {
   /** Feature flags e catálogo de produtos, carregados do config.json. */
   protected readonly features = this.config.features;
   protected readonly products = this.config.products;
+  protected readonly presets = this.config.presets;
   protected readonly configStatus = this.config.configStatus;
   protected readonly integrityError = signal(false);
 
@@ -55,6 +56,12 @@ export class Simulacao {
 
   /** id do produto -> quantidade de usuários (ausente/0 = não selecionado). */
   private readonly selections = signal<Record<string, number>>({});
+
+  /** Perfil cuja pré-seleção bate com a seleção atual (para destacar). */
+  protected readonly activePresetId = computed(() => {
+    const current = this.selections();
+    return this.presets().find((preset) => this.sameSelection(preset.selection, current))?.id ?? null;
+  });
 
   protected readonly selectedItems = computed(() => {
     const selections = this.selections();
@@ -239,6 +246,29 @@ export class Simulacao {
 
   protected setBilling(cycle: BillingCycle): void {
     this.billing.set(cycle);
+  }
+
+  /** Aplica a pré-seleção de um perfil. */
+  protected applyPreset(preset: SimulatorPreset): void {
+    this.selections.set({ ...preset.selection });
+  }
+
+  protected presetClasses(presetId: string): string {
+    const base =
+      'flex flex-col items-start gap-2 rounded-lg border p-4 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-500 focus-visible:ring-offset-2';
+    return this.activePresetId() === presetId
+      ? `${base} border-signal-500/60 bg-white dark:border-signal-500/60 dark:bg-zinc-900/60`
+      : `${base} border-zinc-200 bg-white hover:border-zinc-300 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:border-zinc-700`;
+  }
+
+  private sameSelection(a: Record<string, number>, b: Record<string, number>): boolean {
+    const keys = new Set([...Object.keys(a), ...Object.keys(b)]);
+    for (const key of keys) {
+      if ((a[key] ?? 0) !== (b[key] ?? 0)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   private setUsers(id: string, value: number): void {

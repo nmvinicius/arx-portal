@@ -4,7 +4,7 @@
   "description": "Valida o config.json editado manualmente. Referenciado pelo campo $schema do próprio arquivo.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["features", "pricing", "sales"],
+  "required": ["features", "pricing", "sales", "presets"],
   "properties": {
     "$schema": {
       "type": "string",
@@ -79,11 +79,20 @@
     "sales": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["enabled", "agents"],
+      "required": ["enabled", "email", "validityDays", "agents"],
       "properties": {
         "enabled": {
           "type": "boolean",
           "description": "Habilita a tela de vendas por código de parceiro."
+        },
+        "email": {
+          "type": "string",
+          "description": "E-mail de destino das propostas (mailto)."
+        },
+        "validityDays": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Validade da estimativa, em dias."
         },
         "agents": {
           "type": "array",
@@ -106,6 +115,26 @@
                 "description": "Participação somada ao preço (0.1 = 10%)."
               }
             }
+          }
+        }
+      }
+    },
+    "presets": {
+      "type": "array",
+      "description": "Perfis de pré-seleção exibidos no simulador.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "desc", "icon", "selection"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "desc": { "type": "string" },
+          "icon": { "type": "string" },
+          "selection": {
+            "type": "object",
+            "description": "id do produto -> número de usuários.",
+            "additionalProperties": { "type": "integer", "minimum": 1 }
           }
         }
       }

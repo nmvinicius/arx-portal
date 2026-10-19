@@ -30,6 +30,7 @@ export class ConfigService {
   readonly platformFee = computed(() => this.pricing().platformFee);
   readonly discountTiers = computed(() => this.pricing().discountTiers);
   readonly sales = computed(() => this.config().sales);
+  readonly presets = computed(() => this.config().presets);
 
   /**
    * Busca o `config.json` (mascarado em produção) e o fingerprint publicado.

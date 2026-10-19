@@ -139,9 +139,41 @@
   },
   "sales": {
     "enabled": true,
+    "email": "nunesmartinsvinicius@gmail.com",
+    "validityDays": 15,
     "agents": [
       { "code": "AX92K", "name": "Maria Souza", "commission": 0.1 },
       { "code": "BR71P", "name": "João Lima", "commission": 0.15 }
     ]
-  }
+  },
+  "presets": [
+    {
+      "id": "advocacia",
+      "name": "Escritório de Advocacia",
+      "desc": "Contratos, digitalização e arquivos do escritório.",
+      "icon": "lucideScale",
+      "selection": { "documenso": 8, "paperless": 8, "nextcloud": 10, "outline": 6 }
+    },
+    {
+      "id": "contabilidade",
+      "name": "Escritório de Contabilidade",
+      "desc": "Documentos fiscais, arquivos e relatórios.",
+      "icon": "lucideCalculator",
+      "selection": { "paperless": 10, "nextcloud": 12, "documenso": 6, "metabase": 6 }
+    },
+    {
+      "id": "agencia",
+      "name": "Agência de Design",
+      "desc": "Design, agenda, arquivos e automação.",
+      "icon": "lucideMousePointerClick",
+      "selection": { "penpot": 6, "nextcloud": 10, "calcom": 6, "n8n": 4 }
+    },
+    {
+      "id": "varejo",
+      "name": "Comércio e Serviços",
+      "desc": "ERP, suporte e indicadores para o dia a dia.",
+      "icon": "lucideStore",
+      "selection": { "odoo": 15, "n8n": 4, "zammad": 5, "metabase": 5 }
+    }
+  ]
 }
